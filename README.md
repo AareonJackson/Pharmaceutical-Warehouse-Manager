@@ -1,107 +1,193 @@
-#Warehouse Manager
+# Pharmaceutical Warehouse Manager
 
-A pharmaceutical warehouse inventory management system implemented in C++ that handles CSV-based database operations, purchase order processing, and receipt generation.
-Overview
-This project implements a comprehensive inventory management system for pharmaceutical products. The system manages inventory data through CSV files and provides essential functionality for warehouse operations including stock updates, purchase order processing, and categorical item viewing.
-Features
+A C++ implementation of a pharmaceutical warehouse inventory management system that demonstrates file I/O, data structures, and algorithm implementation concepts.
 
-CSV Database Management: Load and manage pharmaceutical inventory from CSV files with full CRUD operations
-Interactive Menu System: User-friendly command-line interface for all operations
-Purchase Order Processing: Process orders from text files with automatic stock updates and receipt generation
-Receipt Generation: Generate detailed receipts with itemized totals for all transactions
-Configuration Management: Automatically save and load receipt counters and database file names from configuration files
-Category Filtering: View items by pharmaceutical category (Antibiotic, Painkiller, Antibacterial, etc.)
-Stock Updates: Add or subtract inventory quantities with validation
-Persistent Settings: Save configuration and database changes on exit
+## Assignment Overview
 
-#System Architecture
-Data Structures
+This project implements a complete inventory management system for pharmaceutical products with the following core capabilities:
+- CSV database management with persistent storage
+- Purchase order processing with automatic receipt generation
+- Configuration file handling for system settings
+- Category-based item filtering and display
+- Interactive command-line interface
 
-pharmaItem struct: Contains ID, name, price, quantity, and category
-ItemCategory enum: Pharmaceutical categories including Antibiotic, Painkiller, Antibacterial, Antihistamine, Supplement, Antacid
-Array-based storage: Fixed-size array for in-memory database operations
+## System Architecture
 
-#Key Functions
+### Data Structures
 
-loadConfiguration(): Load database filename and receipt counter from config file
-parseItem(): Parse CSV rows into pharmaItem structures
-updateStock(): Modify inventory quantities with validation
-processPurchaseOrder(): Handle order files and generate receipts
-showCategory(): Display items by category sorted by price
-saveDatabase(): Persist changes to CSV and configuration files
+**ItemCategory Enum**
+```cpp
+enum ItemCategory {
+    ANTIBIOTIC, PAINKILLER, ANTIBACTERIAL, 
+    ANTIHISTAMINE, SUPPLEMENT, ANTACID, 
+    UNCATEGORIZED
+}
+```
 
-#File Structure
+**pharmaItem Struct**
+```cpp
+struct pharmaItem {
+    int id = -1;              // Unique identifier
+    string name = "";         // Product name
+    int price = -1;           // Price in cents
+    int quantity = -1;        // Stock quantity
+    ItemCategory category = UNCATEGORIZED;
+}
+```
 
-Configuration File (config.cfg): Stores database filename and receipt counter
-Database File (warehousedb.csv): CSV inventory data with headers
-Order Files (order1.txt): Purchase orders with item ID and quantity pairs
+### Key Constants
+- `DATABASE_SIZE = 100`: Maximum inventory capacity
+- `DATABASE_FILE_KEY = "db"`: Configuration key for database filename
+- `RECEIPT_COUNT_KEY = "receipt"`: Configuration key for receipt counter
 
-Usage
-Compilation
-cppg++ -o pharma pharma.cpp
-Execution
-bash./pharma config.cfg
-Menu Options
+## Implementation Details
 
-s: Show complete inventory
-u: Update stock levels for specific items
-p: Process purchase orders from file
-c: Display items filtered by category
-w: Save changes to database file
-q: Quit with optional save prompt
+### Core Functions Implemented
 
-Configuration Format
+**Configuration Management**
+- `loadConfiguration()`: Parses key-value pairs from configuration file
+- `saveDatabase()`: Persists inventory and configuration changes
+
+**Data Processing**
+- `parseItem()`: Converts CSV rows to pharmaItem objects
+- `findItem()`: Linear search algorithm for item lookup
+- `updateStock()`: Validates and updates inventory quantities
+
+**Business Logic**
+- `processPurchaseOrder()`: Handles order files with stock validation
+- `showCategory()`: Filters and sorts items by pharmaceutical category
+- `showReceipt()`: Generates formatted transaction receipts
+
+**Utility Functions**
+- `stringToCategory()` / `categoryToString()`: Enum conversion utilities
+- `showItems()`: Formatted console output for inventory display
+
+## File Formats
+
+### Configuration File (`config.cfg`)
+```
 db=warehousedb.csv
 receipt=102
-Order File Format
+```
+
+### Database File (`warehousedb.csv`)
+```csv
+id,item,price,quantity,category
+1200,Aspirin,599,45,Painkiller
+1201,Amoxicillin,1299,30,Antibiotic
+```
+
+### Purchase Order File (`order1.txt`)
+```
 1206 50
 1217 90
 1219 100
-Technical Details
-The system demonstrates fundamental concepts used in inventory management:
+```
 
-File I/O operations for CSV and configuration management
-String parsing and data conversion
-Array-based data structures and algorithms
-Menu-driven user interfaces
-Financial calculations with proper formatting
+## Algorithm Implementation
 
-#Educational Purpose
-This project showcases essential programming concepts including:
+### Search Algorithm
+- **Linear Search**: Used in `findItem()` for O(n) item lookups
+- Optimized with early termination on encountering default values
 
-File handling and CSV parsing
-Struct and enum usage in C++
-Search algorithms (linear search for item lookup)
-Sorting algorithms (selection sort for category display)
-Input validation and error handling
-Configuration file management
+### Sorting Algorithm
+- **Selection Sort**: Implemented in `showCategory()` for price-based sorting
+- O(n²) complexity suitable for small datasets
 
-#Real-World Applications
-While this implementation uses CSV files and arrays, production inventory systems typically feature:
+### File Processing
+- **CSV Parsing**: Manual delimiter-based parsing using `getline()`
+- **Configuration Parsing**: Key-value pair extraction with `=` delimiter
 
-SQL database backends for scalability
-Multi-user concurrent access
-Web-based or GUI interfaces
-Barcode/RFID integration
-Advanced reporting and analytics
-Network-based distributed systems
+## Usage Instructions
 
-#Error Handling
-The system includes robust error handling for:
+### Compilation
+```bash
+g++ -o pharma pharma.cpp
+```
 
-Missing configuration files
-Invalid database files
-Non-existent order files
-Invalid user input
-Out-of-stock scenarios
+### Execution
+```bash
+./pharma config.cfg
+```
 
-#Future Enhancements
-Potential improvements could include:
+### Interactive Menu
+```
+**********WAREHOUSE MANAGER**********
+ s) Show Inventory
+ u) Update Stock  
+ p) Process Purchase Order
+ c) Show Category
+ w) Write Changes to File
+ q) Quit
+```
 
-SQL database integration
-Network connectivity for distributed systems
-Graphical user interface
-Barcode scanning support
-Advanced search and filtering
-Backup and recovery systems
-User authentication and permissions
+## Error Handling
+
+The system includes comprehensive error handling for:
+- **File Operations**: Missing or corrupted configuration/database files
+- **Order Processing**: Invalid item IDs and insufficient stock scenarios
+- **Input Validation**: Out-of-range quantities and invalid menu selections
+- **Data Integrity**: Prevents negative stock levels
+
+## Educational Objectives
+
+This assignment demonstrates mastery of:
+
+### Programming Concepts
+- **Struct and Enum Usage**: Complex data type definition and manipulation
+- **File I/O Operations**: Reading/writing CSV and configuration files
+- **Array Manipulation**: Fixed-size arrays for database simulation
+- **String Processing**: Manual parsing without external libraries
+
+### Algorithm Implementation
+- **Search Algorithms**: Linear search with optimization
+- **Sorting Algorithms**: Selection sort implementation
+- **Data Validation**: Input sanitization and boundary checking
+
+### Software Design
+- **Modular Programming**: Well-defined function interfaces
+- **Configuration Management**: External configuration file handling
+- **Error Recovery**: Graceful handling of exceptional conditions
+
+## Real-World Connections
+
+While this implementation uses simplified approaches for educational purposes, it demonstrates concepts used in production systems:
+
+**Current Implementation** → **Industry Standards**
+- CSV Files → SQL Databases (PostgreSQL, MySQL)
+- Arrays → Dynamic Data Structures (Vectors, Hash Tables)
+- Linear Search → Indexed Database Queries
+- Console Interface → Web/Desktop GUIs
+- Manual Parsing → ORM Libraries
+
+## Performance Characteristics
+
+- **Time Complexity**: O(n) for search operations, O(n²) for sorting
+- **Space Complexity**: O(1) additional space for most operations
+- **Scalability**: Suitable for datasets up to `DATABASE_SIZE` items
+
+## Testing Scenarios
+
+The system handles various test cases:
+1. **Normal Operations**: Standard inventory updates and order processing
+2. **Edge Cases**: Orders exceeding stock, non-existent items
+3. **File Handling**: Missing files, corrupted data formats
+4. **Boundary Conditions**: Maximum database size, zero quantities
+
+## Future Enhancements
+
+Potential improvements for advanced implementations:
+- Dynamic memory allocation for unlimited inventory
+- SQL database integration with ODBC/ADO connections
+- Multi-threading for concurrent order processing
+- Network protocols for distributed warehouse management
+- Advanced search algorithms (binary search, hash tables)
+- GUI framework integration (Qt, GTK)
+
+## Academic Integrity
+
+This implementation serves as a learning tool for understanding:
+- Fundamental data structures and algorithms
+- File handling in C++
+- Business logic implementation
+- Software design principles
