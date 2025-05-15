@@ -1,4 +1,5 @@
-Warehouse Manager
+#Warehouse Manager
+
 A pharmaceutical warehouse inventory management system implemented in C++ that handles CSV-based database operations, purchase order processing, and receipt generation.
 Overview
 This project implements a comprehensive inventory management system for pharmaceutical products. The system manages inventory data through CSV files and provides essential functionality for warehouse operations including stock updates, purchase order processing, and categorical item viewing.
@@ -13,14 +14,14 @@ Category Filtering: View items by pharmaceutical category (Antibiotic, Painkille
 Stock Updates: Add or subtract inventory quantities with validation
 Persistent Settings: Save configuration and database changes on exit
 
-System Architecture
+#System Architecture
 Data Structures
 
 pharmaItem struct: Contains ID, name, price, quantity, and category
 ItemCategory enum: Pharmaceutical categories including Antibiotic, Painkiller, Antibacterial, Antihistamine, Supplement, Antacid
 Array-based storage: Fixed-size array for in-memory database operations
 
-Key Functions
+#Key Functions
 
 loadConfiguration(): Load database filename and receipt counter from config file
 parseItem(): Parse CSV rows into pharmaItem structures
@@ -29,7 +30,7 @@ processPurchaseOrder(): Handle order files and generate receipts
 showCategory(): Display items by category sorted by price
 saveDatabase(): Persist changes to CSV and configuration files
 
-File Structure
+#File Structure
 
 Configuration File (config.cfg): Stores database filename and receipt counter
 Database File (warehousedb.csv): CSV inventory data with headers
@@ -65,7 +66,7 @@ Array-based data structures and algorithms
 Menu-driven user interfaces
 Financial calculations with proper formatting
 
-Educational Purpose
+#Educational Purpose
 This project showcases essential programming concepts including:
 
 File handling and CSV parsing
@@ -75,7 +76,7 @@ Sorting algorithms (selection sort for category display)
 Input validation and error handling
 Configuration file management
 
-Real-World Applications
+#Real-World Applications
 While this implementation uses CSV files and arrays, production inventory systems typically feature:
 
 SQL database backends for scalability
@@ -85,7 +86,7 @@ Barcode/RFID integration
 Advanced reporting and analytics
 Network-based distributed systems
 
-Error Handling
+#Error Handling
 The system includes robust error handling for:
 
 Missing configuration files
@@ -94,7 +95,7 @@ Non-existent order files
 Invalid user input
 Out-of-stock scenarios
 
-Future Enhancements
+#Future Enhancements
 Potential improvements could include:
 
 SQL database integration
